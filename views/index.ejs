@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Simpsons' Quotes</title>
+	</head>
+	<body>
+		<h1>Simpsons' Quotes</h1>
+		<form action="/quotes" method="POST">
+			<input type="text" placeholder="name" name="name" />
+			<input type="text" placeholder="quote" name="quote" />
+			<button type="submit">Submit</button>
+		</form>
+        <ul class="quotes">
+            <% for(var i = 0; i < quotes.length; i++) {%>
+            <li class="quote">
+              <span><%= quotes[i].name %></span>:
+              <span><%= quotes[i].quote %></span>
+            </li>
+            <% } %>
+	</body>
+</html>
