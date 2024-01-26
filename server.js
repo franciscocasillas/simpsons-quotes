@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
@@ -15,9 +16,13 @@ MongoClient.connect(connectionString)
 
 		// View-related middleware
 		app.set("view engine", "ejs");
+		app.use(express.static("public"));
 
 		//Global middleware
 		app.use(bodyParser.urlencoded({ extended: true }));
+		app.use(express.static("public"));
+		app.use(cors());
+		app.use(bodyParser.json());
 
 		//Route definitions
 		app.get("/", (req, res) => {
@@ -39,6 +44,28 @@ MongoClient.connect(connectionString)
 					console.log(result);
 				})
 				.catch((error) => console.error(error));
+		});
+
+		app.put("/quotes", (req, res) => {
+			quotesCollection
+				.findOneAndUpdate(
+					{ name: "Homer" },
+					{
+						$set: {
+							name: req.body.name,
+							quote: req.body.quote,
+						},
+					},
+					{
+						upsert: true,
+					}
+				)
+				.then((result) => {
+					res.json("Success");
+				})
+				.catch((error) => {
+					console.error(error);
+				});
 		});
 
 		//Start server
