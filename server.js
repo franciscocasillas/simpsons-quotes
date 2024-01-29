@@ -68,6 +68,15 @@ MongoClient.connect(connectionString)
 				});
 		});
 
+		app.delete("/quotes", (req, res) => {
+			quotesCollection
+				.deleteOne({ name: req.body.name })
+				.then((result) => {
+					res.json("Success");
+				})
+				.catch((error) => console.error(error));
+		});
+
 		//Start server
 		app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 	})
