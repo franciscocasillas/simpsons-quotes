@@ -72,7 +72,10 @@ MongoClient.connect(connectionString)
 			quotesCollection
 				.deleteOne({ name: req.body.name })
 				.then((result) => {
-					res.json("Success");
+					if (result.deletedCount === 0) {
+						return res.json("No quote to delete");
+					}
+					res.json("Deleted Mr. Burns quote!");
 				})
 				.catch((error) => console.error(error));
 		});

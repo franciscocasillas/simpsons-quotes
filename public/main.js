@@ -1,5 +1,6 @@
 const update = document.querySelector("#update-button");
 const deleteButton = document.querySelector("#delete-button");
+const messageDiv = document.querySelector("#message");
 
 update.addEventListener("click", (_) => {
 	fetch("/quotes", {
@@ -31,7 +32,11 @@ deleteButton.addEventListener("click", (_) => {
 			if (res.ok) return res.json();
 		})
 		.then((response) => {
-			console.log(response);
-			window.location.reload(true);
+			if (response === "No quote to delete") {
+				messageDiv.textContent = "There are no more Mr. Burns quotes to delete";
+			} else {
+				console.log(response);
+				window.location.reload(true);
+			}
 		});
 });
